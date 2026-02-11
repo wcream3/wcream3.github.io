@@ -5,8 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ATM Prank Master</title>
+  
+  <!-- Tailwind for styling -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Babel Standalone: Allows the browser to run .tsx files directly -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -28,23 +35,56 @@
     .neon-text {
       text-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
     }
+
+    /* Custom scrollbar for that pro look */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.3);
+      border-radius: 10px;
+    }
   </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0"
+
+  <script>
+    // FIX: Define 'process' so the app doesn't crash on GitHub Pages
+    window.process = {
+      env: {
+        API_KEY: "" // Will be empty unless injected by your environment
+      }
+    };
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+      "react/": "https://esm.sh/react@^19.2.4/",
+      "react": "https://esm.sh/react@^19.2.4",
+      "@google/genai": "https://esm.sh/@google/genai@^1.40.0"
+    }
   }
-}
-</script>
+  </script>
 <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-  <div id="root"></div>
-  <!-- Explicitly load the entry point for GitHub Pages compatibility -->
-  <script type="module" src="./index.tsx"></script>
+  <div id="root">
+    <!-- Initial Loading State while Babel transpiles the app -->
+    <div style="height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0c; color: #8b5cf6; font-family: 'Orbitron', sans-serif;">
+      <div style="width: 40px; height: 40px; border: 3px solid rgba(139, 92, 246, 0.1); border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+      <p style="margin-top: 20px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase;">Initializing Master Control...</p>
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+
+  <!-- IMPORTANT: Using text/babel allows Babel to transpile this and all imported .tsx files -->
+  <script type="text/babel" data-type="module" data-presets="react,typescript" src="./index.tsx"></script>
 <script type="module" src="/index.tsx"></script>
 </body>
 </html>
