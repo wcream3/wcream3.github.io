@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { MOCK_PLAYERS, PRANK_LIBRARY } from './constants';
-import { Player, PrankAction, LogEntry, GeminiPrankSuggestion } from './types';
-import { PlayerCard } from './components/PlayerCard';
-import { ActionCard } from './components/ActionCard';
-import { ConnectionStatus } from './components/ConnectionStatus';
-import { IntegrationGuide } from './components/IntegrationGuide';
-import { generateCreativePrank } from './services/geminiService';
+import { MOCK_PLAYERS, PRANK_LIBRARY } from './constants.tsx';
+import { Player, PrankAction, LogEntry, GeminiPrankSuggestion } from './types.ts';
+import { PlayerCard } from './components/PlayerCard.tsx';
+import { ActionCard } from './components/ActionCard.tsx';
+import { ConnectionStatus } from './components/ConnectionStatus.tsx';
+import { IntegrationGuide } from './components/IntegrationGuide.tsx';
+import { generateCreativePrank } from './services/geminiService.ts';
 
 const App: React.FC = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -39,7 +39,6 @@ const App: React.FC = () => {
 
     setLogs(prev => [newLog, ...prev].slice(0, 25));
     
-    // Simulate RCON command sending
     console.log(`Sending to Server via ${useRcon ? 'RCON' : 'Bridge'}: ${command}`);
 
     if ('vibrate' in navigator) {
@@ -93,11 +92,9 @@ const App: React.FC = () => {
     <div className="min-h-screen flex flex-col md:flex-row p-4 gap-6 max-w-[1600px] mx-auto relative overflow-hidden">
       {showGuide && <IntegrationGuide onClose={() => setShowGuide(false)} />}
       
-      {/* Visual Glitch effects */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.02] bg-[radial-gradient(circle,rgba(139,92,246,0.3)_1px,transparent_1px)] bg-[length:20px_20px] z-0" />
       <div className="fixed inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] z-[99]" />
 
-      {/* Left Sidebar: Players */}
       <aside className="w-full md:w-80 flex flex-col gap-4 relative z-10">
         <header className="mb-2 flex flex-col gap-3">
           <div className="flex justify-between items-start">
@@ -146,7 +143,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Activity Log / Terminal */}
         <section className="h-40 glass rounded-xl p-4 border-white/5 flex flex-col overflow-hidden shadow-inner shadow-black/40">
           <div className="flex-1 flex flex-col gap-1 text-[9px] font-mono overflow-y-auto custom-scrollbar leading-tight">
             {logs.length === 0 ? (
@@ -165,7 +161,6 @@ const App: React.FC = () => {
         </section>
       </aside>
 
-      {/* Main Panel: Actions */}
       <main className="flex-1 flex flex-col gap-6 overflow-y-auto custom-scrollbar pb-24 md:pb-0 relative z-10">
         {selectedPlayer ? (
           <>
@@ -201,7 +196,6 @@ const App: React.FC = () => {
                 </button>
               </div>
 
-              {/* AI Suggestion Area */}
               {aiSuggestion && !isGenerating && (
                 <div className="mb-8 p-6 bg-black/40 rounded-2xl border border-violet-500/30 animate-in fade-in zoom-in-95 duration-500 backdrop-blur-md">
                   <div className="flex items-center gap-2 mb-3">
@@ -238,53 +232,6 @@ const App: React.FC = () => {
                     disabled={false}
                   />
                 ))}
-              </div>
-            </section>
-
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-20">
-              <div className="glass rounded-2xl p-6 border-white/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl pointer-events-none" />
-                <h3 className="text-sm font-bold mb-4 flex items-center gap-2 text-blue-400 uppercase tracking-widest">
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                  Visual Overrides
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex flex-col gap-1 p-3 bg-white/5 rounded-xl border border-white/5">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="text-[10px] text-slate-500 uppercase font-bold">Client Glitch Intensity</label>
-                      <span className="text-[10px] font-mono text-blue-400">88%</span>
-                    </div>
-                    <input type="range" className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500" defaultValue="88" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button className="flex flex-col gap-1 p-3 bg-white/5 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all text-left">
-                      <span className="text-xs font-bold">Phantom Rain</span>
-                      <span className="text-[9px] text-slate-500 uppercase tracking-tighter">Visual only</span>
-                    </button>
-                    <button className="flex flex-col gap-1 p-3 bg-white/5 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all text-left">
-                      <span className="text-xs font-bold">Fake Night</span>
-                      <span className="text-[9px] text-slate-500 uppercase tracking-tighter">Target only</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="glass rounded-2xl p-6 border-white/5 relative overflow-hidden">
-                 <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 blur-3xl pointer-events-none" />
-                <h3 className="text-sm font-bold mb-4 flex items-center gap-2 text-fuchsia-400 uppercase tracking-widest">
-                  <span className="w-1.5 h-1.5 bg-fuchsia-500 rounded-full" />
-                  Social Engineering
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <button onClick={() => executePrank({ name: 'Fake Mod DM' })} className="p-4 bg-white/5 rounded-xl text-left hover:bg-fuchsia-500/10 transition-all border border-white/5 hover:border-fuchsia-500/30">
-                    <span className="text-xs font-bold block mb-1">Fake Mod DM</span>
-                    <span className="text-[9px] text-slate-500 uppercase tracking-tighter">Impersonate Admin</span>
-                  </button>
-                  <button onClick={() => executePrank({ name: 'Phantom Join' })} className="p-4 bg-white/5 rounded-xl text-left hover:bg-fuchsia-500/10 transition-all border border-white/5 hover:border-fuchsia-500/30">
-                    <span className="text-xs font-bold block mb-1">Ghost Entry</span>
-                    <span className="text-[9px] text-slate-500 uppercase tracking-tighter">Fake login msg</span>
-                  </button>
-                </div>
               </div>
             </section>
           </>

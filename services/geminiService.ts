@@ -1,11 +1,11 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { GeminiPrankSuggestion, Player } from "../types";
+import { GeminiPrankSuggestion, Player } from "../types.ts";
 
 // Safety check for API key to prevent 'ReferenceError' or crashes
 const getApiKey = () => {
   try {
-    return process.env.API_KEY || '';
+    return (window as any).process?.env?.API_KEY || '';
   } catch (e) {
     return '';
   }
@@ -15,7 +15,6 @@ export async function generateCreativePrank(target: Player): Promise<GeminiPrank
   const apiKey = getApiKey();
   
   if (!apiKey) {
-    // Return a default prank if no API key is configured
     return {
       title: "The Ghost Connection",
       description: "Send a series of fake disconnect packets that make the player think their internet is failing, but only when they are near a Legendary.",

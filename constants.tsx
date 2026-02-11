@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { PrankAction, PrankCategory, Player } from './types';
+import { PrankAction, PrankCategory, Player } from './types.ts';
 
 export const PRANK_LIBRARY: PrankAction[] = [
   {
