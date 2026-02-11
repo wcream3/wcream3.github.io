@@ -1,0 +1,9 @@
+
+{
+  "name": "ATM Prank Master: Troll Control",
+  "description": "A high-end management interface for server-side trolling in All The Mons (ATM). Control your friends' experience with harmless pranks, fake notifications, and AI-generated chaos.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
